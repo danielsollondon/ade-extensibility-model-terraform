@@ -9,6 +9,9 @@ EnvironmentState="$ADE_STORAGE/environment.tfstate"
 EnvironmentPlan="/environment.tfplan"
 EnvironmentVars="/environment.tfvars.json"
 
+#env type indicates which folder in the repo, this can be test, staging, prod
+envtype="test"
+
 echo "$ADE_OPERATION_PARAMETERS" > $EnvironmentVars
 
 # Set up Terraform AzureRM managed identity.
@@ -117,7 +120,9 @@ git config --global user.email "danis@microsoft.com"
 git config --global user.name "danielsollondon"
 git clone https://danielsollondon:${GITHUB_TOKEN}@github.com/danielsollondon/projects.git
 cd projects
-cp $tempPath/$fileName environments/$fileName
+
+# NOTE >>> UPDATING to TEST DIR
+cp $tempPath/$fileName environments/$envtype/$fileName
 git add environments/$fileName
 git commit -a -m "adding resources for $deploymentName"
 git push
