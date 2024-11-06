@@ -62,3 +62,62 @@ tfout=$(jq 'walk(if type == "object" then
 
 echo "{\"outputs\": $tfout}" > $ADE_OUTPUTS
 echo "Outputs successfully generated for ADE"
+
+export name=$(echo $ADE_OPERATION_PARAMETERS | jq .name | sed -e 's/^"//' -e 's/"$//')
+export teamname=$(echo $ADE_OPERATION_PARAMETERS | jq .teamname | sed -e 's/^"//' -e 's/"$//')
+export repourl=$(echo $ADE_OPERATION_PARAMETERS | jq .repourl | sed -e 's/^"//' -e 's/"$//')
+export repopath=$(echo $ADE_OPERATION_PARAMETERS | jq .repopath | sed -e 's/^"//' -e 's/"$//')
+export keyvaultname=$(terraform output -state=$EnvironmentState keyvault_id  | awk -F"/" '{print $NF}' | tr -d '/"')
+export clientid=$(terraform output -state=$EnvironmentState msi_client_id | tr -d '/"')
+
+export deploymentName="adeGitOps-$ADE_ENVIRONMENT_NAME-"$(date +'%s')
+# not deliberately making the deployment name the filename, as it looks like this is not stored anywhere, so will make it the 'name', although unquiness needs to be thought through
+echo "ADE Deployment Name:" $name
+# save name of file to environment storage
+export fileName=$deploymentName.yaml
+echo "$fileName" > $ADE_STORAGE/deploymentName.txt
+ade files upload --file-path $ADE_STORAGE/deploymentName.txt
+echo "Create Temporary Path"
+tempPath="/tempTemplateDir"
+mkdir $tempPath
+echo "Downloading template, filename:" $fileName
+curl https://raw.githubusercontent.com/danielsollondon/platform-engineering/refs/heads/main/ade/templates/full-backend-env.yaml -o $tempPath/$fileName
+echo "starting variable substitution"
+echo "Client ID value: $clientid, Keyvault Name: $keyvaultname"
+sed -i -e "s/app-name/$name/g" $tempPath/$fileName
+sed -i -e "s/teamname/$teamname/g" $tempPath/$fileName
+sed -i -e "s/repourl/$repourl/g" $tempPath/$fileName
+sed -i -e "s/repopath/$repopath/g" $tempPath/$fileName
+sed -i -e "s/resource-group/$ADE_RESOURCE_GROUP_NAME/g" $tempPath/$fileName
+sed -i -e "s/mytenantid/$ADE_TENANT_ID/g" $tempPath/$fileName
+sed -i -e "s/myclientid/$clientid/g" $tempPath/$fileName
+sed -i -e "s/mykeyvaultname/$keyvaultname/g" $tempPath/$fileName
+
+echo "variable substitution done and here it is:"
+echo "filepath:" $tempPath/$fileName  
+cat $tempPath/$fileName  
+
+# rm ./$tempPath/$fileName 
+
+# CONNECT TO GIT
+# access PAT from secret store
+echo "Signing into Azure using MSI"
+while true; do
+    # managed identity isn't available immediately
+    # we need to do retry after a short nap
+    az login --identity --only-show-errors --output none && {
+        echo "Successfully signed into Azure"
+        az account set --subscription $ADE_SUBSCRIPTION_ID
+        break
+    } || sleep 5
+done
+GITHUB_TOKEN=$(az keyvault secret show --name aks-terraform-pat --vault-name kvdansol24 --query value -o tsv | tr -d '[:space:]')
+# clone tesrepo
+git config --global user.email "danis@microsoft.com"
+git config --global user.name "danielsollondon"
+git clone https://danielsollondon:${GITHUB_TOKEN}@github.com/danielsollondon/projects.git
+cd projects
+cp $tempPath/$fileName environments/$fileName
+git add environments/$fileName
+git commit -a -m "adding resources for $deploymentName"
+git push

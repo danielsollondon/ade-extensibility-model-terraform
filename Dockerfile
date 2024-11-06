@@ -17,6 +17,12 @@ RUN wget -O terraform.zip https://releases.hashicorp.com/terraform/1.7.4/terrafo
 RUN unzip terraform.zip && rm terraform.zip
 RUN mv terraform /usr/bin/terraform
 
+# install git/curl
+RUN apk add git curl
+
+# suppress warnings (temporary solution until we can snap to Azure Linux)
+RUN az config set core.only_show_errors=true
+
 # Grab all .sh files from scripts, copy to
 # root scripts, replace line-endings and make them all executable
 COPY scripts/* /scripts/

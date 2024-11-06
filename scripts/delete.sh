@@ -40,3 +40,31 @@ terraform plan -no-color -compact-warnings -destroy -refresh=true -lock=true -st
 
 echo -e "\n>>> Applying Terraform Plan...\n"
 terraform apply -no-color -compact-warnings -auto-approve -lock=true -state=$EnvironmentState $EnvironmentPlan
+
+# we need the below 
+export name=$(echo $ADE_OPERATION_PARAMETERS | jq .name | sed -e 's/^"//' -e 's/"$//')
+export fileName=$(ade files download --file-name deploymentName.txt --folder-path $ADE_STORAGE | cat $ADE_STORAGE/deploymentName.txt)
+# connect to githib
+
+# CONNECT TO GIT
+# access PAT from secret store
+echo "Signing into Azure using MSI"
+while true; do
+    # managed identity isn't available immediately
+    # we need to do retry after a short nap
+    az login --identity --only-show-errors --output none && {
+        echo "Successfully signed into Azure"
+        az account set --subscription $ADE_SUBSCRIPTION_ID
+        break
+    } || sleep 5
+done
+# clone repo, and delete file
+GITHUB_TOKEN=$(az keyvault secret show --name aks-terraform-pat --vault-name jackkays-keyvault --query value -o tsv | tr -d '[:space:]')
+# clone tesrepo
+git config --global user.email "jackkays@microsoft.com"
+git config --global user.name "jacksonkays"
+git clone https://jacksonkays:${GITHUB_TOKEN}@github.com/danielsollondon/projects.git
+cd projects
+git rm environments/$fileName
+git commit -a -m "deleting resources for $name"
+git push
