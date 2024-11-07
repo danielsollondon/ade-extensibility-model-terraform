@@ -9,6 +9,9 @@ EnvironmentState="$ADE_STORAGE/environment.tfstate"
 EnvironmentPlan="/environment.tfplan"
 EnvironmentVars="/environment.tfvars.json"
 
+echo "base image version $BASE_IMAGE_VERSION"
+echo "custom image version $CUSTOM_IMAGE_VERSION"
+
 echo "$ADE_OPERATION_PARAMETERS" > $EnvironmentVars
 
 # Set up Terraform AzureRM managed identity.

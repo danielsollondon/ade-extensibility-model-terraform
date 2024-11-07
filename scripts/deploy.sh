@@ -9,7 +9,8 @@ EnvironmentState="$ADE_STORAGE/environment.tfstate"
 EnvironmentPlan="/environment.tfplan"
 EnvironmentVars="/environment.tfvars.json"
 
-echo "container version 1.2"
+echo "base image version $BASE_IMAGE_VERSION"
+echo "custom image version $CUSTOM_IMAGE_VERSION"
 #env type indicates which folder in the repo, this can be test, staging, prod
 #envtype="test"
 
