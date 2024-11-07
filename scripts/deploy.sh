@@ -9,8 +9,9 @@ EnvironmentState="$ADE_STORAGE/environment.tfstate"
 EnvironmentPlan="/environment.tfplan"
 EnvironmentVars="/environment.tfvars.json"
 
+echo "container version 1.2"
 #env type indicates which folder in the repo, this can be test, staging, prod
-envtype="test"
+#envtype="test"
 
 echo "$ADE_OPERATION_PARAMETERS" > $EnvironmentVars
 
