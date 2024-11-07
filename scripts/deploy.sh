@@ -119,10 +119,10 @@ GITHUB_TOKEN=$(az keyvault secret show --name aks-terraform-pat --vault-name kvd
 git config --global user.email "danis@microsoft.com"
 git config --global user.name "danielsollondon"
 git clone https://danielsollondon:${GITHUB_TOKEN}@github.com/danielsollondon/projects.git
-cd projects
 
-# NOTE >>> UPDATING to TEST DIR
-cp $tempPath/$fileName environments/$fileName
+
+cp $tempPath/$fileName projects/environments/$fileName
+cd projects
 git add environments/$fileName
 git commit -a -m "adding resources for $deploymentName"
 git push
