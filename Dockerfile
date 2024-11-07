@@ -3,6 +3,7 @@
 
 ARG BASE_IMAGE=mcr.microsoft.com/deployment-environments/runners/core
 ARG IMAGE_VERSION=latest
+ARG CUSTOM_IMAGE_VERSION=unknown
 
 FROM ${BASE_IMAGE}:${IMAGE_VERSION}
 WORKDIR /
