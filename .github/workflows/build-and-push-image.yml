@@ -1,13 +1,20 @@
 name: build-and-push-image
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: string
+        description: The version of the image to build
+
 permissions:
       id-token: write
       contents: read
 env:
   registryName: ${{ vars.REGISTRY_NAME }}
   repositoryName: ${{ vars.REPOSITORY_NAME }}
-  tag: ${{ vars.TAG }}
+  tag: ${{ inputs.version || .vars.TAG }}
 
 jobs:
 
