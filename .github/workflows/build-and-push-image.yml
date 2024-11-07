@@ -14,7 +14,7 @@ permissions:
 env:
   registryName: ${{ vars.REGISTRY_NAME }}
   repositoryName: ${{ vars.REPOSITORY_NAME }}
-  tag: ${{ inputs.version || .vars.TAG }}
+  tag: ${{ inputs.version || vars.TAG }}
 
 jobs:
 
