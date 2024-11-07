@@ -87,7 +87,7 @@ echo "Downloading template, filename:" $fileName
 curl https://raw.githubusercontent.com/danielsollondon/platform-engineering/refs/heads/main/ade/templates/full-backend-env.yaml -o $tempPath/$fileName
 echo "starting variable substitution"
 echo "Client ID value: $clientid, Keyvault Name: $keyvaultname"
-sed -i -e "s/app-name/$name/g" $tempPath/$fileName
+# sed -i -e "s/app-name/$name/g" $tempPath/$fileName
 # sed -i -e "s/teamname/$teamname/g" $tempPath/$fileName
 # sed -i -e "s~repourl~$repourl~g" $tempPath/$fileName
 # sed -i -e "s~repopath~$repopath~g" $tempPath/$fileName
