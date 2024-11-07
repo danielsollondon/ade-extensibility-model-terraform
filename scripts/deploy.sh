@@ -68,10 +68,10 @@ tfout=$(jq 'walk(if type == "object" then
 echo "{\"outputs\": $tfout}" > $ADE_OUTPUTS
 echo "Outputs successfully generated for ADE"
 
-# export name=$(echo $ADE_OPERATION_PARAMETERS | jq .name | sed -e 's/^"//' -e 's/"$//')
-# export teamname=$(echo $ADE_OPERATION_PARAMETERS | jq .teamname | sed -e 's/^"//' -e 's/"$//')
-# export repourl=$(echo $ADE_OPERATION_PARAMETERS | jq .repourl | sed -e 's/^"//' -e 's/"$//')
-# export repopath=$(echo $ADE_OPERATION_PARAMETERS | jq .repopath | sed -e 's/^"//' -e 's/"$//')
+export name=$(echo $ADE_OPERATION_PARAMETERS | jq .name | sed -e 's/^"//' -e 's/"$//')
+export teamname=$(echo $ADE_OPERATION_PARAMETERS | jq .teamname | sed -e 's/^"//' -e 's/"$//')
+export repourl=$(echo $ADE_OPERATION_PARAMETERS | jq .repourl | sed -e 's/^"//' -e 's/"$//')
+export repopath=$(echo $ADE_OPERATION_PARAMETERS | jq .repopath | sed -e 's/^"//' -e 's/"$//')
 export keyvaultname=$(terraform output -state=$EnvironmentState keyvault_id  | awk -F"/" '{print $NF}' | tr -d '/"')
 export clientid=$(terraform output -state=$EnvironmentState msi_client_id | tr -d '/"')
 
@@ -92,21 +92,21 @@ echo "starting variable substitution"
 echo "Client ID value: $clientid, Keyvault Name: $keyvaultname"
 echo "STARTING variable substitution done and here it is:"
 echo "VAR SUB $name"
-# sed -i -e "s/app-name/$name/g" $tempPath/$fileName
+sed -i -e "s/app-name/$name/g" $tempPath/$fileName
 echo "VAR SUB $teamname"
-# sed -i -e "s/teamname/$teamname/g" $tempPath/$fileName
+sed -i -e "s/teamname/$teamname/g" $tempPath/$fileName
 echo "VAR SUB $repourl"
-# sed -i -e "s~repourl~$repourl~g" $tempPath/$fileName
+sed -i -e "s~repourl~$repourl~g" $tempPath/$fileName
 echo "VAR SUB $repopath"
-# sed -i -e "s~repopath~$repopath~g" $tempPath/$fileName
+sed -i -e "s~repopath~$repopath~g" $tempPath/$fileName
 echo "VAR SUB $ADE_RESOURCE_GROUP_NAME"
-# sed -i -e "s/resource-group/$ADE_RESOURCE_GROUP_NAME/g" $tempPath/$fileName
+sed -i -e "s/resource-group/$ADE_RESOURCE_GROUP_NAME/g" $tempPath/$fileName
 echo "VAR SUB $ADE_TENANT_ID"
-# sed -i -e "s/mytenantid/$ADE_TENANT_ID/g" $tempPath/$fileName
+sed -i -e "s/mytenantid/$ADE_TENANT_ID/g" $tempPath/$fileName
 echo "VAR SUB $clientid"
-# sed -i -e "s/myclientid/$clientid/g" $tempPath/$fileName
+sed -i -e "s/myclientid/$clientid/g" $tempPath/$fileName
 echo "VAR SUB $keyvaultname"
-# sed -i -e "s/mykeyvaultname/$keyvaultname/g" $tempPath/$fileName
+sed -i -e "s/mykeyvaultname/$keyvaultname/g" $tempPath/$fileName
 
 echo "variable substitution done and here it is:"
 echo "filepath:" $tempPath/$fileName  
