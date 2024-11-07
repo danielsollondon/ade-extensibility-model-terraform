@@ -122,7 +122,7 @@ git clone https://danielsollondon:${GITHUB_TOKEN}@github.com/danielsollondon/pro
 cd projects
 
 # NOTE >>> UPDATING to TEST DIR
-cp $tempPath/$fileName environments/$envtype/$fileName
+cp $tempPath/$fileName environments/$fileName
 git add environments/$fileName
 git commit -a -m "adding resources for $deploymentName"
 git push
