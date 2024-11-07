@@ -85,15 +85,25 @@ tempPath="/tempTemplateDir"
 mkdir $tempPath
 echo "Downloading template, filename:" $fileName
 curl https://raw.githubusercontent.com/danielsollondon/platform-engineering/refs/heads/main/ade/templates/full-backend-env.yaml -o $tempPath/$fileName
+cat $tempPath/$fileName
 echo "starting variable substitution"
 echo "Client ID value: $clientid, Keyvault Name: $keyvaultname"
+echo "STARTING variable substitution done and here it is:"
+echo "VAR SUB $name"
 # sed -i -e "s/app-name/$name/g" $tempPath/$fileName
+echo "VAR SUB $teamname"
 # sed -i -e "s/teamname/$teamname/g" $tempPath/$fileName
+echo "VAR SUB $repourl"
 # sed -i -e "s~repourl~$repourl~g" $tempPath/$fileName
+echo "VAR SUB $repopath"
 # sed -i -e "s~repopath~$repopath~g" $tempPath/$fileName
+echo "VAR SUB $ADE_RESOURCE_GROUP_NAME"
 # sed -i -e "s/resource-group/$ADE_RESOURCE_GROUP_NAME/g" $tempPath/$fileName
+echo "VAR SUB $ADE_TENANT_ID"
 # sed -i -e "s/mytenantid/$ADE_TENANT_ID/g" $tempPath/$fileName
+echo "VAR SUB $clientid"
 # sed -i -e "s/myclientid/$clientid/g" $tempPath/$fileName
+echo "VAR SUB $keyvaultname"
 # sed -i -e "s/mykeyvaultname/$keyvaultname/g" $tempPath/$fileName
 
 echo "variable substitution done and here it is:"
