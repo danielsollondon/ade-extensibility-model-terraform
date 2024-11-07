@@ -91,7 +91,7 @@ sed -i -e "s/app-name/$name/g" $tempPath/$fileName
 sed -i -e "s/teamname/$teamname/g" $tempPath/$fileName
 sed -i -e "s~repourl~$repourl~g" $tempPath/$fileName
 sed -i -e "s~repopath~$repopath~g" $tempPath/$fileName
-sed -i -e "s/resource-group/$ADE_RESOURCE_GROUP_NAME/g" $tempPath/$fileName
+# sed -i -e "s/resource-group/$ADE_RESOURCE_GROUP_NAME/g" $tempPath/$fileName
 sed -i -e "s/mytenantid/$ADE_TENANT_ID/g" $tempPath/$fileName
 sed -i -e "s/myclientid/$clientid/g" $tempPath/$fileName
 sed -i -e "s/mykeyvaultname/$keyvaultname/g" $tempPath/$fileName
