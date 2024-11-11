@@ -152,7 +152,8 @@ echo $environment
 echo "ENV NAME"
 environment_name=$(echo $environment | jq -r ".Name")
 echo "Get UserID upper case"
-CALLING_USERID=$(echo $environment | jq -r ".User")
+CALLING_USERIDUC=$(echo $environment | jq -r ".User")
+echo $CALLING_USERIDUC
 echo "Get UserID lower case"
-CALLING_USERID=$(echo $environment | jq -r ".user")
-echo $CALLING_USERID
+CALLING_USERIDLC=$(echo $environment | jq -r ".user")
+echo $CALLING_USERIDLC
