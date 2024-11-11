@@ -28,6 +28,13 @@ terraform -version
 echo -e "\n>>> Initializing Terraform...\n"
 terraform init -no-color
 
+# echo "Dump out ADE Envs"
+environment=$(ade environment)
+echo $environment
+echo "Calling User ID NAME"
+CALLING_USERID=$(echo $environment | jq -r ".User")
+echo $CALLING_USERID
+
 echo -e "\n>>> Creating Terraform Plan...\n"
 export TF_VAR_resource_group_name=$ADE_RESOURCE_GROUP_NAME
 export TF_VAR_ade_env_name=$ADE_ENVIRONMENT_NAME
@@ -35,6 +42,7 @@ export TF_VAR_env_name=$ADE_ENVIRONMENT_NAME
 export TF_VAR_ade_subscription=$ADE_SUBSCRIPTION_ID
 export TF_VAR_ade_location=$ADE_ENVIRONMENT_LOCATION
 export TF_VAR_ade_environment_type=$ADE_ENVIRONMENT_TYPE
+export TF_VAR_ade_userid=$CALLING_USERID
 
 terraform plan -no-color -compact-warnings -refresh=true -lock=true -state=$EnvironmentState -out=$EnvironmentPlan -var-file="$EnvironmentVars"
 
@@ -74,6 +82,8 @@ export repourl=$(echo $ADE_OPERATION_PARAMETERS | jq .repourl | sed -e 's/^"//' 
 export repopath=$(echo $ADE_OPERATION_PARAMETERS | jq .repopath | sed -e 's/^"//' -e 's/"$//')
 export keyvaultname=$(terraform output -state=$EnvironmentState keyvault_id  | awk -F"/" '{print $NF}' | tr -d '/"')
 export clientid=$(terraform output -state=$EnvironmentState msi_client_id | tr -d '/"')
+
+
 
 # getting branch
 export branch=$(echo $ADE_OPERATION_PARAMETERS | jq .branch | sed -e 's/^"//' -e 's/"$//')
@@ -145,15 +155,3 @@ git add environments/$fileName
 git commit -a -m "adding resources for $deploymentName"
 git push
 
-echo "Dump out ADE Envs"
-environment=$(ade environment)
-echo $environment
-
-echo "ENV NAME"
-environment_name=$(echo $environment | jq -r ".Name")
-echo "Get UserID upper case"
-CALLING_USERIDUC=$(echo $environment | jq -r ".User")
-echo $CALLING_USERIDUC
-echo "Get UserID lower case"
-CALLING_USERIDLC=$(echo $environment | jq -r ".user")
-echo $CALLING_USERIDLC
