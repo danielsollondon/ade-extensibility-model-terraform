@@ -145,5 +145,5 @@ git add environments/$fileName
 git commit -a -m "adding resources for $deploymentName"
 git push
 
-
+echo "ADE dep params"
 echo $ADE_OPERATION_PARAMETERS 
