@@ -145,5 +145,6 @@ git add environments/$fileName
 git commit -a -m "adding resources for $deploymentName"
 git push
 
-echo "ADE dep params"
-echo $ADE_OPERATION_PARAMETERS 
+echo "Get UserID"
+CALLING_USERID=$(ade environment | jq .user)
+echo $CALLING_USERID
