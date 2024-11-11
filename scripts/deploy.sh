@@ -145,6 +145,14 @@ git add environments/$fileName
 git commit -a -m "adding resources for $deploymentName"
 git push
 
-echo "Get UserID"
-CALLING_USERID=$(ade environment | jq .user)
+echo "Dump out ADE Envs"
+environment=$(ade environment)
+echo $environment
+
+echo "ENV NAME"
+environment_name=$(echo $environment | jq -r ".Name")
+echo "Get UserID upper case"
+CALLING_USERID=$(echo $environment | jq -r ".User")
+echo "Get UserID lower case"
+CALLING_USERID=$(echo $environment | jq -r ".user")
 echo $CALLING_USERID
