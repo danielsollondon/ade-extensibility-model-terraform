@@ -148,10 +148,10 @@ git config --global user.email "danis@microsoft.com"
 git config --global user.name "danielsollondon"
 git clone https://danielsollondon:${GITHUB_TOKEN}@github.com/danielsollondon/projects.git
 
-
-cp $tempPath/$fileName projects/environments/staging01/$fileName
+repopath=staging01
+cp $tempPath/$fileName projects/environments/$repopath/$fileName
 cd projects
-git add environments/staging01/$fileName
+git add environments/$repopath/$fileName
 git commit -a -m "adding resources for $deploymentName"
 git push
 

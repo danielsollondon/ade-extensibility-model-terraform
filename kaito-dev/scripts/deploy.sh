@@ -149,9 +149,11 @@ git config --global user.name "danielsollondon"
 git clone https://danielsollondon:${GITHUB_TOKEN}@github.com/danielsollondon/projects.git
 
 
-cp $tempPath/$fileName projects/environments/$fileName
+repopath=aiml
+cp $tempPath/$fileName projects/environments/$repopath/$fileName
 cd projects
-git add environments/kaito-dev/$fileName
+git add environments/$repopath/$fileName
 git commit -a -m "adding resources for $deploymentName"
 git push
+
 
