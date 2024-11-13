@@ -149,7 +149,7 @@ git config --global user.name "danielsollondon"
 git clone https://danielsollondon:${GITHUB_TOKEN}@github.com/danielsollondon/projects.git
 
 
-cp $tempPath/$fileName projects/environments/$fileName
+cp $tempPath/$fileName projects/environments/staging01/$fileName
 cd projects
 git add environments/staging01/$fileName
 git commit -a -m "adding resources for $deploymentName"
