@@ -35,7 +35,7 @@ jobs:
       
     - uses: actions/checkout@v3
     - name: Build the Docker Image
-      run: docker build ./fips --file Dockerfile --tag "$registryName.azurecr.io/$repositoryNameFips:$tag" --tag "$registryName.azurecr.io/$repositoryNameFips:latest" --build-arg CUSTOM_IMAGE_VERSION=$tag
+      run: docker build ./staging01 --file Dockerfile --tag "$registryName.azurecr.io/$repositoryNameFips:$tag" --tag "$registryName.azurecr.io/$repositoryNameFips:latest" --build-arg CUSTOM_IMAGE_VERSION=$tag
 
     - name: 'Push the Docker Image'
       run: docker push "$registryName.azurecr.io/$repositoryNameFips:$tag"
