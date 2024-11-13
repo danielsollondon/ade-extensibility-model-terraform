@@ -31,6 +31,6 @@ RUN az config set core.only_show_errors=true
 # Grab all .sh files from scripts, copy to
 # root scripts, replace line-endings and make them all executable
 COPY scripts/* /scripts/
-RUN PWD
+RUN ls
 RUN find /scripts/ -type f -iname "*.sh" -exec dos2unix '{}' '+'
 RUN find /scripts/ -type f -iname "*.sh" -exec chmod +x {} \;
