@@ -149,7 +149,7 @@ git config --global user.name "danielsollondon"
 git clone https://danielsollondon:${GITHUB_TOKEN}@github.com/danielsollondon/projects.git
 
 
-repopath=aiml
+repopath=dev02
 cp $tempPath/$fileName projects/environments/$repopath/$fileName
 cd projects
 git add environments/$repopath/$fileName
