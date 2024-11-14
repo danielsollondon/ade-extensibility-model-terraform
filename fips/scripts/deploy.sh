@@ -133,8 +133,10 @@ git config --global user.name "danielsollondon"
 git clone https://danielsollondon:${GITHUB_TOKEN}@github.com/danielsollondon/projects.git
 
 
-cp $tempPath/$fileName projects/environments/$fileName
+cluster=dev01
+cp $tempPath/$fileName projects/environments/$cluster/$fileName
 cd projects
-git add environments/$fileName
+git add environments/$cluster/$fileName
 git commit -a -m "adding resources for $deploymentName"
 git push
+
