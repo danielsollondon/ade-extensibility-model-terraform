@@ -107,6 +107,8 @@ echo "VAR SUB $clientid"
 sed -i -e "s/myclientid/$clientid/g" $tempPath/$fileName
 echo "VAR SUB $keyvaultname"
 sed -i -e "s/mykeyvaultname/$keyvaultname/g" $tempPath/$fileName
+echo "VAR SUB $branch"
+sed -i -e "s/branch/$branch/g" $tempPath/$fileName
 
 echo "variable substitution done and here it is:"
 echo "filepath:" $tempPath/$fileName  
