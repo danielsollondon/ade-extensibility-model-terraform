@@ -76,18 +76,21 @@ tfout=$(jq 'walk(if type == "object" then
 echo "{\"outputs\": $tfout}" > $ADE_OUTPUTS
 echo "Outputs successfully generated for ADE"
 
+echo "Dump all params"
+echo $ADE_OPERATION_PARAMETERS
+
 export name=$(echo $ADE_OPERATION_PARAMETERS | jq .name | sed -e 's/^"//' -e 's/"$//')
 export teamname=$(echo $ADE_OPERATION_PARAMETERS | jq .teamname | sed -e 's/^"//' -e 's/"$//')
 export repourl=$(echo $ADE_OPERATION_PARAMETERS | jq .repourl | sed -e 's/^"//' -e 's/"$//')
 export repopath=$(echo $ADE_OPERATION_PARAMETERS | jq .repopath | sed -e 's/^"//' -e 's/"$//')
 export keyvaultname=$(terraform output -state=$EnvironmentState keyvault_id  | awk -F"/" '{print $NF}' | tr -d '/"')
 export clientid=$(terraform output -state=$EnvironmentState msi_client_id | tr -d '/"')
-
+export branch=$(echo $ADE_OPERATION_PARAMETERS | jq .branch | sed -e 's/^"//' -e 's/"$//')
+echo "Branch:" $branch
 
 
 # getting branch
-export branch=$(echo $ADE_OPERATION_PARAMETERS | jq .branch | sed -e 's/^"//' -e 's/"$//')
-echo "Branch:" $branch
+
 
 export deploymentName="adeGitOps-$ADE_ENVIRONMENT_NAME-"$(date +'%s')
 # not deliberately making the deployment name the filename, as it looks like this is not stored anywhere, so will make it the 'name', although unquiness needs to be thought through
